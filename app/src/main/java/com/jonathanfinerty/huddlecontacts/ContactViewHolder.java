@@ -22,10 +22,11 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindContact(Contact contact) {
+        avatar.setImageDrawable(context.getResources().getDrawable(R.drawable.default_avatar));
         LoadImageAsyncTask loadImage = new LoadImageAsyncTask(avatar);
         loadImage.execute(contact.getAvatarUrl());
-        avatar.setImageDrawable(context.getDrawable(R.drawable.default_avatar));
         name.setText(contact.getName());
         title.setText(contact.getJobTitle());
     }
 }
+
