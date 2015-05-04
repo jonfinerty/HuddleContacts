@@ -2,9 +2,14 @@ package com.jonathanfinerty.huddlecontacts;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListActivity extends ActionBarActivity {
@@ -13,7 +18,15 @@ public class ListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ListView listView = (ListView) findViewById(R.id.list_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_view);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<Contact> contacts = new ContactsLoader().getContacts();
+
+        recyclerView.setAdapter(new ContactsAdapter(contacts));
     }
 
     @Override
@@ -30,7 +43,7 @@ public class ListActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             return true;
         }
