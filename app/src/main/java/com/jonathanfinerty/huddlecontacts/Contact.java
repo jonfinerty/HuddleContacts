@@ -5,6 +5,7 @@ public class Contact {
     private String name;
     private String jobTitle;
     private String avatarUrl;
+    private String id;
 
     public Contact(String name, String jobTitle, String avatarUrl) {
         this.name = name;
@@ -22,5 +23,9 @@ public class Contact {
 
     public String getJobTitle() {
         return jobTitle;
+    }
+
+    public String getId() {
+        return id;
     }
 }
