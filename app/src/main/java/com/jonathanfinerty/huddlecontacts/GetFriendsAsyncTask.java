@@ -70,7 +70,19 @@ public class GetFriendsAsyncTask extends AsyncTask<String, Void, List<Contact>> 
                     jobTitle = profileJson.getJSONObject("company").getString("role");
                 }
 
-                contacts.add(new Contact(name, jobTitle, "https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg"));
+                JSONArray linksArrayJson = friendJson.getJSONArray("links");
+
+                String avatarUri = "https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg";
+
+                for (int j = 0; j < linksArrayJson.length(); j++) {
+                    JSONObject linkJson = linksArrayJson.getJSONObject(j);
+                    if (linkJson.getString("rel").equals("avatar")) {
+                        avatarUri = linkJson.getString("href");
+                        break;
+                    }
+                }
+
+                contacts.add(new Contact(name, jobTitle, avatarUri));
             }
 
             return contacts;

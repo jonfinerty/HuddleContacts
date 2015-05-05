@@ -6,8 +6,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+
 import java.io.InputStream;
-import java.net.URL;
 
 public class LoadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
@@ -18,8 +23,20 @@ public class LoadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected Bitmap doInBackground(String... args) {
+
+        int userId = 1425259;
+
         try {
-            return BitmapFactory.decodeStream((InputStream) new URL(args[0]).getContent());
+            DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
+            HttpGet httpGet = new HttpGet(args[0]);
+            httpGet.setHeader("Authorization", "OAuth2 {'iss':'auth.huddle.dev', 'exp': 1986681600, 'urn:huddle.claims.userid': " + userId + "}");
+
+            HttpResponse response = httpClient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+
+            InputStream inputStream = entity.getContent();
+
+            return BitmapFactory.decodeStream(inputStream);
 
         } catch (Exception e) {
             Log.e("LoadImageAsyncTask", "Error loading image", e);
