@@ -12,6 +12,8 @@ import java.util.List;
 
 public class ListActivity extends ActionBarActivity {
 
+    private ContactsAdapter contactsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +24,11 @@ public class ListActivity extends ActionBarActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        List<Contact> contacts = new ContactsLoader().getContacts();
+        contactsAdapter = new ContactsAdapter();
+        recyclerView.setAdapter(contactsAdapter);
 
-        recyclerView.setAdapter(new ContactsAdapter(contacts));
+        GetFriendsAsyncTask friendsAsyncTask = new GetFriendsAsyncTask(this);
+        friendsAsyncTask.execute();
     }
 
     @Override
@@ -47,5 +51,9 @@ public class ListActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        contactsAdapter.setContacts(contacts);
     }
 }

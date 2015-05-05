@@ -5,14 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
-    private List<Contact> contacts;
+    private List<Contact> contacts = new ArrayList<>();
 
-    public ContactsAdapter(List<Contact> contacts) {
+    public ContactsAdapter() {}
+
+    public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+        notifyDataSetChanged();
     }
 
     @Override
